@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -15,7 +15,7 @@ const pool = new Pool({
 });
 
 const runSQLScript = async () => {
-  const filePath = path.join(__dirname, './migrations/init.sql');
+  const filePath = path.join(__dirname, './init.sql');
   const sql = fs.readFileSync(filePath, 'utf8');
 
   try {
