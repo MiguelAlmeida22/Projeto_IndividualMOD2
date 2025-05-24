@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentação da API - Sistema de Reservas</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      line-height: 1.6
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 3px
+    }
+    h2 {
+      margin-top: 2.2rem
+    }
+  </style>
+</head>
+<body>
+  <h1>API Sistema de Reservas de Salas</h1>
+  <p>Esta aplicação expõe três conjuntos de endpoints REST em <code>/api/usuarios</code>, <code>/api/salas</code> e <code>/api/reservas</code>. Todos
+    aceitam e devolvem JSON.</p>
+  
+  <h2>1. Usuários</h2>
+  <ul>
+    <li><strong>GET /api/usuarios</strong> – lista todos os usuários.</li>
+    <li><strong>POST /api/usuarios</strong> – cria usuário.<br>
+      Exemplo de corpo: <code>{"nome":"Ana Silva","email":"ana@exemplo.com"}</code></li>
+    <li><strong>DELETE /api/usuarios/:id</strong> – remove usuário.</li>
+  </ul>
+  
+  <h2>2. Salas</h2>
+  <ul>
+    <li><strong>GET /api/salas</strong> – lista todas as salas.</li>
+    <li><strong>POST /api/salas</strong> – cria sala.<br>
+      Exemplo: <code>{"nome":"Sala de Reunião A","capacidade":10,"disponivel":true}</code></li>
+    <li><strong>GET /api/salas/:id</strong> – detalhe da sala.</li>
+    <li><strong>PUT /api/salas/:id</strong> – atualiza sala.</li>
+    <li><strong>DELETE /api/salas/:id</strong> – remove sala.</li>
+  </ul>
+  
+  <h2>3. Reservas</h2>
+  <ul>
+    <li><strong>GET /api/reservas</strong> – lista todas as reservas.</li>
+    <li><strong>POST /api/reservas</strong> – cria reserva.<br>
+      Exemplo: <code>{"idUsuario":1,"idSala":2,"dataInicio":"2024-12-01T09:00:00","dataFim":"2024-12-01T11:00:00"}</code></li>
+    <li><strong>GET /api/reservas/:id</strong> – detalhe da reserva.</li>
+    <li><strong>PUT /api/reservas/:id</strong> – atualiza reserva.</li>
+    <li><strong>DELETE /api/reservas/:id</strong> – remove reserva.</li>
+  </ul>
+  
+  <h2>Exemplos de uso via <em>curl</em></h2>
+  <pre>
+# Criar usuário
+curl -X POST http://localhost:3000/api/usuarios \
+     -H "Content-Type: application/json" \
+     -d '{"nome":"Ana Silva","email":"ana@exemplo.com"}'
+
+# Criar sala
+curl -X POST http://localhost:3000/api/salas \
+     -H "Content-Type: application/json" \
+     -d '{"nome":"Sala de Reunião A","capacidade":10,"disponivel":true}'
+
+# Criar reserva
+curl -X POST http://localhost:3000/api/reservas \
+     -H "Content-Type: application/json" \
+     -d '{"idUsuario":1,"idSala":1,"dataInicio":"2024-12-01T09:00:00","dataFim":"2024-12-01T11:00:00"}'
+
+# Listar salas disponíveis
+curl http://localhost:3000/api/salas-disponiveis
+
+# Listar reservas detalhadas
+curl http://localhost:3000/api/reservas-detalhadas
+  </pre>
+</body>
+</html>
