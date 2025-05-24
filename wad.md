@@ -81,7 +81,51 @@ CREATE TABLE IF NOT EXISTS reserva (
 ```
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+
+##  Modelo de Usuário (`usuarioModel`)
+
+Valida os dados fornecidos ao cadastrar ou atualizar um usuário.
+
+- `id_usuario`: número inteiro positivo (opcional).
+- `nome`: string obrigatória, entre 3 e 100 caracteres.
+- `email`: string obrigatória, deve ser um e-mail válido com no máximo 50 caracteres.
+
+> Utilizado para garantir que os usuários cadastrados possuam nome e e-mail válidos.
+
+---
+
+## Modelo de Sala (`salaModel`)
+
+Valida os dados de uma sala disponível para reservas.
+
+- `id_sala`: número inteiro positivo (opcional).
+- `numero`: número da sala, obrigatório e inteiro positivo.
+- `localizacao`: string com até 100 caracteres. Pode ser nula ou vazia.
+- `capacidade`: número inteiro positivo. Pode ser nulo.
+- `disponivel`: booleano que representa se a sala está disponível. Pode ser nulo.
+
+> Permite a criação de registros de salas com informações básicas e opcionais para maior flexibilidade.
+
+---
+
+## Modelo de Reserva (`reservaModel`)
+
+Valida os dados relacionados a uma reserva de sala feita por um usuário.
+
+- `id_reserva`: número inteiro positivo (opcional).
+- `id_usuario`: número inteiro positivo. Obrigatório. Refere-se ao usuário que realizou a reserva.
+- `id_sala`: número inteiro positivo. Obrigatório. Refere-se à sala reservada.
+- `reservado_em`: data em formato ISO. Obrigatória. Indica quando a reserva foi criada.
+- `data_inicio`: data de início da reserva. Obrigatória. Formato ISO.
+- `data_fim`: data de fim da reserva. Obrigatória. Deve ser igual ou posterior a `data_inicio`.
+
+> Garante integridade temporal e vinculação correta entre usuários e salas reservadas.
+
+---
+
+- Todos os modelos utilizam a biblioteca [`Joi`](https://joi.dev/) para garantir que os dados estejam corretamente estruturados antes de qualquer operação no banco de dados.
+- Campos opcionais são comuns para permitir a reutilização dos mesmos modelos em diferentes contextos (criação, atualização, consulta).
+---
 
 ### 3.2. Arquitetura (Semana 5)
 
@@ -109,8 +153,116 @@ CREATE TABLE IF NOT EXISTS reserva (
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+ 
+Esta API RESTful permite o gerenciamento de reservas de salas através de três conjuntos de endpoints: `usuários`, `salas` e `reservas`. Todos os dados são enviados e recebidos no formato JSON.
 
+##  Usuário
+
+- **GET /api/usuarios**  
+  Lista todos os usuários cadastrados.
+
+- **POST /api/usuarios**  
+  Cria um novo usuário.  
+  **Exemplo de corpo da requisição:**
+  ```json
+  {
+    "nome": "Ana Silva",
+    "email": "ana@exemplo.com"
+  }
+  ```
+
+- **DELETE /api/usuarios/:id**  
+  Remove um usuário com base no seu ID.
+
+---
+
+## Sala
+
+- **GET /api/salas**  
+  Lista todas as salas cadastradas.
+
+- **POST /api/salas**  
+  Cria uma nova sala.  
+  **Exemplo de corpo da requisição:**
+  ```json
+  {
+    "nome": "Sala de Reunião A",
+    "capacidade": 10,
+    "disponivel": true
+  }
+  ```
+
+- **GET /api/salas/:id**  
+  Retorna os detalhes de uma sala específica.
+
+- **PUT /api/salas/:id**  
+  Atualiza os dados de uma sala com base no ID.
+
+- **DELETE /api/salas/:id**  
+  Remove uma sala do sistema.
+
+---
+
+## Reserva
+
+- **GET /api/reservas**  
+  Lista todas as reservas realizadas.
+
+- **POST /api/reservas**  
+  Cria uma nova reserva.  
+  **Exemplo de corpo da requisição:**
+  ```json
+  {
+    "idUsuario": 1,
+    "idSala": 2,
+    "dataInicio": "2024-12-01T09:00:00",
+    "dataFim": "2024-12-01T11:00:00"
+  }
+  ```
+
+- **GET /api/reservas/:id**  
+  Exibe os detalhes de uma reserva específica.
+
+- **PUT /api/reservas/:id**  
+  Atualiza os dados de uma reserva.
+
+- **DELETE /api/reservas/:id**  
+  Remove uma reserva com base no ID.
+
+##  Exemplos de uso com `curl`
+
+#### ➤ Criar um usuário
+```bash
+curl -X POST http://localhost:3000/api/usuarios \
+     -H "Content-Type: application/json" \
+     -d '{"nome":"Ana Silva","email":"ana@exemplo.com"}'
+```
+
+#### ➤ Criar uma sala
+```bash
+curl -X POST http://localhost:3000/api/salas \
+     -H "Content-Type: application/json" \
+     -d '{"nome":"Sala de Reunião A","capacidade":10,"disponivel":true}'
+```
+
+#### ➤ Criar uma reserva
+```bash
+curl -X POST http://localhost:3000/api/reservas \
+     -H "Content-Type: application/json" \
+     -d '{"idUsuario":1,"idSala":1,"dataInicio":"2024-12-01T09:00:00","dataFim":"2024-12-01T11:00:00"}'
+```
+
+#### ➤ Listar as salas disponíveis
+```bash
+curl http://localhost:3000/api/salas-disponiveis
+```
+
+#### ➤ Listar as reservas detalhadas
+```bash
+curl http://localhost:3000/api/reservas-detalhadas
+```
+
+---
 ### 3.7 Interface e Navegação (Semana 07)
 
 *Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
