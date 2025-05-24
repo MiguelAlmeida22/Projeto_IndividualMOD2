@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
     "start": "node server.js"
   },
   "author": "Miguel Almeida",
@@ -17,7 +17,8 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "pg": "^8.15.6"
+    "joi": "^17.13.3",
+    "pg": "^8.16.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
