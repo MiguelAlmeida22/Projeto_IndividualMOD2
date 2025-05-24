@@ -1,0 +1,78 @@
+### Criar usuário
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Miguel",
+  "email": "afonsofinalmentedeucertoteamo@empresa.com.br"
+}
+
+### Listar usuários
+GET http://localhost:3000/api/usuarios
+
+### Deletar usuário
+DELETE http://localhost:3000/api/usuarios/14
+
+### Criar nova sala
+POST http://localhost:3000/api/salas
+Content-Type: application/json
+
+{
+
+  "capacidade": 10,
+  "numero": 82,
+  "localizacao": "andar 3"
+}
+
+### Listar todas as salas
+GET http://localhost:3000/api/salas
+
+### Ver detalhes de uma sala específica
+GET http://localhost:3000/api/salas/9
+
+### Atualizar sala
+PUT http://localhost:3000/api/salas/9
+Content-Type: application/json
+
+{
+  "capacidade": 35,
+  "numero": 95,
+  "localizacao": "andar 4",
+  "disponivel": "true"
+}
+
+### Deletar sala
+DELETE http://localhost:3000/api/salas/9
+
+### Criar nova reserva
+POST http://localhost:3000/api/reservas
+Content-Type: application/json
+
+{
+  "id_sala": 11,
+  "id_usuario": 12,
+  "reservado_em": "2025-06-10",
+  "data_inicio": "2025-06-09 10:00:00",
+  "data_fim": "2025-06-09 13:00:00"
+}
+
+### Listar todas as reservas
+GET http://localhost:3000/api/reservas
+
+### Ver detalhes de uma reserva 
+GET http://localhost:3000/api/reservas/8
+
+### Atualizar reserva 
+PUT http://localhost:3000/api/reservas/8
+Content-Type: application/json
+
+{
+  "id_sala": 9,
+  "id_usuario": 12,
+  "reservado_em": "2025-06-10",
+  "data_inicio": "2025-06-09 07:00:00",
+  "data_fim": "2025-06-09 11:00:00"
+}
+
+### Deletar reserva 
+DELETE http://localhost:3000/api/reservas/8
