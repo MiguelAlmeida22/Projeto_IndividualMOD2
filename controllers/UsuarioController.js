@@ -1,68 +1,64 @@
+const svc = require("../services/usuarioService");
 const pool = require('../config/database');
 
-
-exports.criarUsuario = async (req, res) => {
-  const { nome, email } = req.body;
-
-  const query = 'INSERT INTO usuario (nome, email) VALUES ($1, $2) RETURNING *';
-  const values = [nome, email];
-
+exports.create = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    const usuario = result.rows[0];
+    const usuario = await svc.create(req.body);
     res.status(201).json(usuario);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
   }
 };
 
-
-exports.listarUsuarios = async (req, res) => {
-  const query = 'SELECT * FROM usuario';
-
+exports.list = async (_, res) => {
   try {
-    const result = await pool.query(query);
-    res.status(200).json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const usuarios = await svc.list();
+    res.json(usuarios);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-
-exports.editarUsuario = async (req, res) => {
-  const { id_usuario } = req.params;
-  const { nome, email } = req.body;
-
-  const query = `
-    UPDATE usuario SET nome = $1, email = $2
-    WHERE id_usuario = $3 RETURNING *`;
-  const values = [nome, email, id_usuario];
-
+exports.detail = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+    const usuario = await svc.detail(req.params.id);
+    res.json(usuario);
+  } catch (e) {
+    if (e.message === "Usuário não encontrado.") {
+      res.sendStatus(404);
+    } else {
+      res.status(500).json({ error: e.message });
     }
-    res.status(200).json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 };
 
-
-exports.excluirUsuario = async (req, res) => {
-  const { id_usuario } = req.params;
-
-  const query = 'DELETE FROM usuario WHERE id_usuario = $1 RETURNING *';
-  const values = [id_usuario];
-
+exports.update = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+    const usuario = await svc.update(req.params.id, req.body);
+    res.json(usuario);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
+
+exports.remove = async (req, res) => {
+  try {
+    await svc.remove(req.params.id);
+    res.sendStatus(204);
+  } catch (e) {
+    if (e.message === "Usuário não encontrado.") {
+      res.sendStatus(404);
+    } else {
+      res.status(500).json({ error: e.message });
     }
-    res.status(200).json({ message: 'Usuário excluído com sucesso' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.findByEmail = async (req, res) => {
+  try {
+    const usuario = await svc.findByEmail(req.params.email);
+    usuario ? res.json(usuario) : res.sendStatus(404);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };

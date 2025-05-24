@@ -1,71 +1,86 @@
+const svc = require("../services/salaService");
 const pool = require('../config/database');
 
-
-exports.criarSala = async (req, res) => {
-  const { numero, localizacao, capacidade, disponivel } = req.body;
-
-  const query = `
-    INSERT INTO sala (numero, localizacao, capacidade, disponivel)
-    VALUES ($1, $2, $3, $4) RETURNING *`;
-  const values = [numero, localizacao, capacidade, disponivel];
-
+exports.create = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    const sala = result.rows[0];
+    const sala = await svc.create(req.body);
     res.status(201).json(sala);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
   }
 };
 
-
-exports.listarSalas = async (req, res) => {
-  const query = 'SELECT * FROM sala';
-
+exports.list = async (_, res) => {
   try {
-    const result = await pool.query(query);
-    res.status(200).json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const salas = await svc.list();
+    res.json(salas);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-
-exports.editarSala = async (req, res) => {
-  const { id_sala } = req.params;
-  const { numero, localizacao, capacidade, disponivel } = req.body;
-
-  const query = `
-    UPDATE sala 
-    SET numero = $1, localizacao = $2, capacidade = $3, disponivel = $4
-    WHERE id_sala = $5 RETURNING *`;
-  const values = [numero, localizacao, capacidade, disponivel, id_sala];
-
+exports.detail = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Sala não encontrada' });
+    const sala = await svc.detail(req.params.id);
+    res.json(sala);
+  } catch (e) {
+    if (e.message === "Sala não encontrada.") {
+      res.sendStatus(404);
+    } else {
+      res.status(500).json({ error: e.message });
     }
-    res.status(200).json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 };
 
-
-exports.excluirSala = async (req, res) => {
-  const { id_sala } = req.params;
-
-  const query = 'DELETE FROM sala WHERE id_sala = $1 RETURNING *';
-  const values = [id_sala];
-
+exports.update = async (req, res) => {
   try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Sala não encontrada' });
+    const sala = await svc.update(req.params.id, req.body);
+    res.json(sala);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
+
+exports.remove = async (req, res) => {
+  try {
+    await svc.remove(req.params.id);
+    res.sendStatus(204);
+  } catch (e) {
+    if (e.message === "Sala não encontrada.") {
+      res.sendStatus(404);
+    } else {
+      res.status(500).json({ error: e.message });
     }
-    res.status(200).json({ message: 'Sala excluída com sucesso' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.findAvailable = async (_, res) => {
+  try {
+    const salas = await svc.findAvailable();
+    res.json(salas);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+exports.updateAvailability = async (req, res) => {
+  try {
+    const sala = await svc.updateAvailability(req.params.id, req.body.disponivel);
+    res.json(sala);
+  } catch (e) {
+    if (e.message === "Sala não encontrada.") {
+      res.sendStatus(404);
+    } else {
+      res.status(400).json({ error: e.message });
+    }
+  }
+};
+
+exports.withReservationCounts = async (_, res) => {
+  try {
+    const salas = await svc.withReservationCounts();
+    res.json(salas);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
