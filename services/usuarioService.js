@@ -5,15 +5,15 @@ const usuarioRepo = require("../repositories/usuarioRepository");
    1. O nome não pode ser um reservado do sistema.
    2. O e-mail deve pertencer a um domínio permitido.
    3. Não pode haver dois usuários com o mesmo e-mail.
-   4. O nome deve ter pelo menos 2 caracteres.
+   4. O nome deve ter pelo menos 3 caracteres.
 */
 
 const DOMINIOS_PERMITIDOS = ["empresa.com.br", "exemplo.com", "gmail.com", "hotmail.com"];
 const NOMES_RESERVADOS = new Set(["admin", "root", "system", "administrador", "usuario"]);
 
 function validarNome(nome) {
-  if (!nome || nome.trim().length < 2) {
-    throw new Error("Nome deve ter pelo menos 2 caracteres.");
+  if (!nome || nome.trim().length < 3) {
+    throw new Error("Nome deve ter pelo menos 3 caracteres.");
   }
   
   if (NOMES_RESERVADOS.has(nome.toLowerCase())) {
