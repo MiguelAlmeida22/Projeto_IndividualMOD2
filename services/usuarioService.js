@@ -8,7 +8,7 @@ const usuarioRepo = require("../repositories/usuarioRepository");
    4. O nome deve ter pelo menos 3 caracteres.
 */
 
-const DOMINIOS_PERMITIDOS = ["empresa.com.br", "exemplo.com", "gmail.com", "hotmail.com"];
+const DOMINIOS_PERMITIDOS = ["empresa.com.br", "exemplo.com", "gmail.com", "hotmail.com", "outlook.com", "sou.inteli.edu.br"];
 const NOMES_RESERVADOS = new Set(["admin", "root", "system", "administrador", "usuario"]);
 
 function validarNome(nome) {
@@ -36,7 +36,7 @@ async function validarEmailUnico(email, ignorarId = null) {
 }
 
 module.exports = {
-  /* CRUD + validações */
+  
   async create(payload) {
     validarNome(payload.nome);
     validarDominioEmail(payload.email);
