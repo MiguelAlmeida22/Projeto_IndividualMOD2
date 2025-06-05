@@ -37,14 +37,14 @@ async function validarNumeroUnico(numero, ignorarId = null) {
 }
 
 module.exports = {
-  /* CRUD + validações */
+  
   async create(payload) {
     validarNumero(payload.numero);
     validarCapacidade(payload.capacidade);
     validarLocalizacao(payload.localizacao);
     await validarNumeroUnico(payload.numero);
     
-    // Define disponível como true por padrão se não informado
+    
     if (payload.disponivel === undefined) {
       payload.disponivel = true;
     }
@@ -81,11 +81,6 @@ module.exports = {
       throw new Error("Sala não encontrada.");
     }
     
-    // Verificar se há reservas para esta sala seria ideal aqui
-    // const reservas = await reservaRepo.findBySala(id);
-    // if (reservas.length > 0) {
-    //   throw new Error("Não é possível remover sala com reservas cadastradas.");
-    // }
     
     return salaRepo.remove(id);
   },

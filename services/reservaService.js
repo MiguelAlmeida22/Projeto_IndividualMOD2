@@ -70,25 +70,31 @@ async function validarConflitosHorario(idSala, dataInicio, dataFim, excludeReser
 }
 
 module.exports = {
-  /* CRUD + validações complexas */
+  
   async create(payload) {
-    // Validações básicas
+    
     validarDatas(payload.data_inicio, payload.data_fim);
     
-    // Validar existência de usuário e sala
+    
     await validarUsuarioExiste(payload.id_usuario);
     await validarSalaExiste(payload.id_sala);
     await validarSalaDisponivel(payload.id_sala);
     
-    // Validar conflitos de horário
+    
     await validarConflitosHorario(payload.id_sala, payload.data_inicio, payload.data_fim);
     
-    // Define data de reserva como agora se não informada
+    
     if (!payload.reservado_em) {
       payload.reservado_em = new Date();
     }
     
-    return reservaRepo.create(payload);
+    
+    const reservaCriada = await reservaRepo.create(payload);
+
+    
+    await salaRepo.updateAvailability(payload.id_sala, false);
+
+    return reservaCriada;
   },
 
   async list() {
@@ -109,7 +115,7 @@ module.exports = {
       throw new Error("Reserva não encontrada.");
     }
     
-    // Validações se estiver alterando datas
+    
     if (payload.data_inicio || payload.data_fim) {
       const dataInicio = payload.data_inicio || reservaExistente.data_inicio;
       const dataFim = payload.data_fim || reservaExistente.data_fim;
@@ -120,7 +126,7 @@ module.exports = {
       await validarConflitosHorario(idSala, dataInicio, dataFim, id);
     }
     
-    // Validar existência se estiver alterando usuário ou sala
+    
     if (payload.id_usuario) await validarUsuarioExiste(payload.id_usuario);
     if (payload.id_sala) {
       await validarSalaExiste(payload.id_sala);
@@ -136,7 +142,7 @@ module.exports = {
       throw new Error("Reserva não encontrada.");
     }
     
-    // Opcional: validar se pode cancelar (ex: não cancelar reservas que já começaram)
+    
     const agora = new Date();
     const dataInicio = new Date(reserva.data_inicio);
     if (dataInicio <= agora) {
