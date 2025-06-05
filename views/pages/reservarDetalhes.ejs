@@ -1,0 +1,95 @@
+<h1 class="mb-4 text-center">Detalhes da Reserva</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form id="reservaForm">
+      <input type="hidden" id="idUsuario" value="<%= idUsuario %>" />
+
+      <div class="mb-3">
+        <label for="idSala" class="form-label">Sala</label>
+        <select class="form-select" id="idSala" required>
+          <option selected disabled value="">Selecione a sala</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="data" class="form-label">Data</label>
+        <input type="date" class="form-control" id="data" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="inicio" class="form-label">Horário de Início</label>
+        <input type="time" class="form-control" id="inicio" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="fim" class="form-label">Horário de Término</label>
+        <input type="time" class="form-control" id="fim" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Confirmar Reserva</button>
+    </form>
+    <div id="mensagem" class="mt-3 text-center"></div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const select = document.getElementById("idSala");
+
+    try {
+      const salas = await fetch("/api/salas-disponiveis").then(res => res.json());
+      salas.forEach(sala => {
+        const option = document.createElement("option");
+        option.value = sala.id_sala;
+        option.text = `Sala ${sala.numero} (${sala.localizacao || "Sem localização"})`;
+        select.appendChild(option);
+      });
+    } catch (err) {
+      console.error("Erro ao carregar salas:", err);
+      select.innerHTML = `<option disabled>Erro ao carregar salas</option>`;
+    }
+  });
+
+  document.getElementById("reservaForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const mensagem = document.getElementById("mensagem");
+    mensagem.textContent = "";
+
+    const idUsuario = document.getElementById("idUsuario").value;
+    const idSala = document.getElementById("idSala").value;
+    const data = document.getElementById("data").value;
+    const inicio = document.getElementById("inicio").value;
+    const fim = document.getElementById("fim").value;
+
+    const dataInicio = new Date(`${data}T${inicio}`);
+    const dataFim = new Date(`${data}T${fim}`);
+
+    try {
+      const response = await fetch("/api/reservas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id_usuario: parseInt(idUsuario),
+          id_sala: parseInt(idSala),
+          reservado_em: new Date(),
+          data_inicio: dataInicio,
+          data_fim: dataFim
+        })
+      });
+
+      if (!response.ok) {
+        const erro = await response.json();
+        throw new Error(erro.message || "Erro ao criar reserva");
+      }
+
+      mensagem.className = "mt-3 text-success text-center";
+      mensagem.textContent = "Reserva criada com sucesso!";
+      setTimeout(() => window.location.href = "/minhasReservas", 2000);
+    } catch (err) {
+      console.error(err);
+      mensagem.className = "mt-3 text-danger text-center";
+      mensagem.textContent = err.message || "Erro ao realizar reserva";
+    }
+  });
+</script>

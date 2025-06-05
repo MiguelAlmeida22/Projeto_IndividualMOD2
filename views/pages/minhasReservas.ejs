@@ -1,0 +1,68 @@
+<h1 class="mb-4 text-center">Minhas Reservas</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form id="buscarForm">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+      <button type="submit" class="btn btn-secondary w-100">Buscar Reservas</button>
+    </form>
+    <div id="mensagemErro" class="mt-3 text-danger text-center"></div>
+  </div>
+</div>
+
+<div id="reservasContainer" class="mt-5"></div>
+
+<script>
+  document.getElementById("buscarForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const erro = document.getElementById("mensagemErro");
+    const container = document.getElementById("reservasContainer");
+
+    erro.textContent = "";
+    container.innerHTML = "";
+
+    try {
+      const usuario = await fetch(`/api/usuarios/email/${email}`).then(r => {
+        if (!r.ok) throw new Error("Usuário não encontrado.");
+        return r.json();
+      });
+
+      if (usuario.nome.toLowerCase() !== nome.toLowerCase()) {
+        throw new Error("Nome e e-mail não correspondem.");
+      }
+
+      const reservas = await fetch(`/api/reservas/usuario/${usuario.id_usuario}`).then(r => r.json());
+
+      if (reservas.length === 0) {
+        container.innerHTML = `<div class="alert alert-info text-center">Nenhuma reserva encontrada.</div>`;
+        return;
+      }
+
+      const cards = reservas.map(res => `
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Sala ${res.sala_numero}</h5>
+            <p class="card-text">
+              <strong>Localização:</strong> ${res.sala_localizacao || "N/A"}<br>
+              <strong>Início:</strong> ${new Date(res.data_inicio).toLocaleString()}<br>
+              <strong>Fim:</strong> ${new Date(res.data_fim).toLocaleString()}
+            </p>
+          </div>
+        </div>
+      `).join("");
+
+      container.innerHTML = `<div class="row justify-content-center"><div class="col-md-8">${cards}</div></div>`;
+    } catch (err) {
+      erro.textContent = err.message || "Erro ao buscar reservas.";
+    }
+  });
+</script>

@@ -1,0 +1,59 @@
+<h1 class="mb-4 text-center">Identificação do Usuário</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form id="usuarioForm">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" required minlength="3">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <button type="submit" class="btn btn-success w-100">Continuar</button>
+    </form>
+    <div id="mensagemErro" class="mt-3 text-danger text-center"></div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("usuarioForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const erro = document.getElementById("mensagemErro");
+    erro.textContent = "";
+
+    try {
+      // Verifica se o usuário já existe
+      let response = await fetch(`/api/usuarios/email/${email}`);
+      let usuario;
+
+      if (response.ok) {
+        usuario = await response.json();
+      } else {
+        // Se não existir, cria novo usuário
+        response = await fetch("/api/usuarios", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nome, email }),
+        });
+
+        if (!response.ok) {
+          const erroApi = await response.json();
+          throw new Error(erroApi.message || "Erro ao criar usuário");
+        }
+
+        usuario = await response.json();
+      }
+
+      // Redireciona para a próxima etapa com o ID do usuário
+      window.location.href = `/reservar-detalhes/${usuario.id_usuario}`;
+    } catch (err) {
+      console.error(err);
+      erro.textContent = err.message || "Erro ao continuar";
+    }
+  });
+</script>

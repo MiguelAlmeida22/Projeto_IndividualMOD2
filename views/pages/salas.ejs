@@ -1,0 +1,54 @@
+<h1 class="mb-4 text-center">Salas Disponíveis</h1>
+
+<div id="salasContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const container = document.getElementById("salasContainer");
+    
+    try {
+      
+      const reservas = await fetch("/api/reservas-detalhadas").then(r => r.json());
+      const agora = new Date();
+
+      for (const reserva of reservas) {
+        if (new Date(reserva.data_fim) < agora) {
+          await fetch(`/api/salas/${reserva.id_sala}/disponibilidade`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ disponivel: true })
+          });
+        }
+      }
+
+      
+      const salas = await fetch("/api/salas-disponiveis").then(r => r.json());
+
+      if (salas.length === 0) {
+        container.innerHTML = `
+          <div class="alert alert-warning text-center w-100">Nenhuma sala disponível no momento.</div>
+        `;
+        return;
+      }
+
+      salas.forEach(sala => {
+        container.innerHTML += `
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">Sala ${sala.numero}</h5>
+                <p class="card-text">
+                  <strong>Localização:</strong> ${sala.localizacao || "Não informada"}<br>
+                  <strong>Capacidade:</strong> ${sala.capacidade || "Não informada"} pessoas
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    } catch (err) {
+      container.innerHTML = `<div class="alert alert-danger">Erro ao carregar salas.</div>`;
+      console.error(err);
+    }
+  });
+</script>
