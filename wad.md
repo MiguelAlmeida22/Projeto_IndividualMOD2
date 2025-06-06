@@ -265,8 +265,53 @@ curl http://localhost:3000/api/reservas-detalhadas
 ---
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Nessa etapa do projeto, foi desenvolvido o front-end do sistema web de Reserva de Salas, utilizando EJS, CSS Bootstrap e Javascript, tornando a interface intuitiva, simples e funcional, estando conectada efetivamente com o back-end e com o banco de dados no Supabase.
 
+#### O que foi entregue em termos de código e sistema:
+
+- Arquitetura das views:
+Foi estruturada a pasta views com subpastas para layouts, componentes e páginas específicas, seguindo uma organização modular para facilitar manutenção e escalabilidade.
+---
+- Layout base:
+Criado o arquivo layout.ejs, que contém a estrutura HTML principal, importação do Bootstrap e um header simplificado com atalhos para as páginas, garantindo uniformidade visual.
+---
+- Páginas principais implementadas:
+1. Página inicial (index.ejs): com botões para acessar as principais funcionalidades do sistema.
+
+2. Salas Disponíveis (salas.ejs): exibe a lista de salas disponíveis, consumindo a API backend via fetch e mostrando dados como número, localização e capacidade.
+
+3. Fazer Reserva (etapas em duas páginas: reservarUsuario.ejs e reservarDetalhes.ejs): formulário para identificação do usuário e posteriormente seleção da sala, data e horários para reserva, com envio dos dados via API REST.
+
+4. Minhas Reservas (minhasReservas.ejs): página para o usuário consultar suas reservas mediante inserção de nome e e-mail, exibindo os dados obtidos do backend.
+---
+- Comunicação com backend:
+Todas as páginas que exibem dados dinâmicos utilizam a API REST já implementada no backend, fazendo requisições assíncronas via fetch para buscar ou enviar dados, garantindo que a interface reflita o estado atual do sistema.
+---
+- Validação e feedback:
+Os formulários possuem validações básicas no frontend e tratamento de erros retornados pelo backend, exibindo mensagens claras para o usuário em casos de falhas.
+---
+- Navegação:
+A navegação entre páginas ocorre via rotas Express configuradas para renderizar views com dados dinâmicos, sem a necessidade de frameworks front-end pesados, facilitando a implementação e manutenção.
+
+#### Prints das Páginas:
+
+- Tela Inicial:
+![image_pag_1](./assets/Pag1.png)
+
+- Tela de Salas Disponíveis:
+![image_pag_2](./assets/Pag2.png)
+
+- Tela de Identificação Para Reservar:
+![image_pag_3](./assets/Pag3.png)
+
+- Tela de Fazer Reserva:
+![image_pag_4](./assets/Pag4.png)
+
+- Tela de Identificação Para Ver Reservas:
+![image_pag_5](./assets/Pag5.png)
+
+- Tela de Ver Reservas:
+![image_pag_6](./assets/Pag6.png)
 ---
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
