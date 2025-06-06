@@ -267,7 +267,7 @@ curl http://localhost:3000/api/reservas-detalhadas
 
 Nessa etapa do projeto, foi desenvolvido o front-end do sistema web de Reserva de Salas, utilizando EJS, CSS Bootstrap e Javascript, tornando a interface intuitiva, simples e funcional, estando conectada efetivamente com o back-end e com o banco de dados no Supabase.
 
-#### O que foi entregue em termos de código e sistema:
+#### ➤ O que foi entregue em termos de código e sistema:
 
 - Arquitetura das views:
 Foi estruturada a pasta views com subpastas para layouts, componentes e páginas específicas, seguindo uma organização modular para facilitar manutenção e escalabilidade.
@@ -293,7 +293,7 @@ Os formulários possuem validações básicas no frontend e tratamento de erros 
 - Navegação:
 A navegação entre páginas ocorre via rotas Express configuradas para renderizar views com dados dinâmicos, sem a necessidade de frameworks front-end pesados, facilitando a implementação e manutenção.
 
-#### Prints das Páginas:
+#### ➤ Prints das Páginas:
 
 - Tela Inicial:
 ![image_pag_1](./assets/Pag1.png)
