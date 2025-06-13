@@ -1,7 +1,8 @@
 # Web Application Document - Projeto Individual - Módulo 2 - Inteli
 
 
-## Nome do Projeto
+## Nome do Projeto:
+### Easy Room
 
 ## Autor do projeto
 **Miguel Ferreira de Siqueira Almeida**
@@ -9,33 +10,19 @@
 ## Sumário
 
 1. [Introdução](#c1)  
-2. [Visão Geral da Aplicação Web](#c2)  
-3. [Projeto Técnico da Aplicação Web](#c3)  
-4. [Desenvolvimento da Aplicação Web](#c4)  
-5. [Referências](#c5)  
+2. [Projeto Técnico da Aplicação Web](#c3)  
+3. [Desenvolvimento da Aplicação Web](#c4)  
 
 <br>
 
-## <a name="c1"></a>1. Introdução (Semana 01)
+## <a name="c1"></a>1. Introdução
 Neste projeto, irei desenvolver um sistema web completo, com banco de dados, backend e frontend integrados. O objetivo é aplicar os conceitos que aprendi durante o módulo 2 do INTELI. A aplicação web desenvolvida será um sistema de reserva de salas para agendamentos, possibilitando que o usuário veja as salas disponíveis e escolha um dia e horário para fazer a reserva. O sistema contará com uma interface responsiva e mecanismos de validação de conflitos de horários, garantindo confiabilidade no processo de agendamento. A arquitetura do projeto será feita usando Node, JavaScript, CSS, HTML e um banco de dados relacional.
 
 ---
 
-## <a name="c2"></a>2. Visão Geral da Aplicação Web
+## <a name="c3"></a>2. Projeto da Aplicação Web
 
-### 2.1. Personas (Semana 01 - opcional)
-
-*Posicione aqui sua(s) Persona(s) em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário.*
-
-### 2.2. User Stories (Semana 01 - opcional)
-
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a referência USXX para numeração (US01, US02, US03, ...). Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST de 1 User Storie prioritária.*
-
----
-
-## <a name="c3"></a>3. Projeto da Aplicação Web
-
-### 3.1. Modelagem do banco de dados  (Semana 3)
+### 2.1. Modelagem do banco de dados  
 
 ### Modelo Relacional (Diagrama):
 ![image_mod_rel](./assets/modelo_relacional.png)
@@ -80,7 +67,7 @@ CREATE TABLE IF NOT EXISTS reserva (
 );
 ```
 
-### 3.1.1 BD e Models (Semana 5)
+### 2.1.1 BD e Models
 
 ##  Modelo de Usuário (`usuarioModel`)
 
@@ -127,31 +114,63 @@ Valida os dados relacionados a uma reserva de sala feita por um usuário.
 - Campos opcionais são comuns para permitir a reutilização dos mesmos modelos em diferentes contextos (criação, atualização, consulta).
 ---
 
-### 3.2. Arquitetura (Semana 5)
+### 2.2. Arquitetura
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+![image_diagrama](./assets/diagrama.png)
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+ **1. Interação do Usuário:**
 
-### 3.3. Wireframes (Semana 03 - opcional)
+O usuário acessa a aplicação pelo navegador (cliente).
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+**2. Navegação entre Views:**
 
-### 3.4. Guia de estilos (Semana 05 - opcional)
+Da Página Inicial, o usuário pode ir para:
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+- Salas Disponíveis
 
+- Formulário de Reserva
 
-### 3.5. Protótipo de alta fidelidade (Semana 05 - opcional)
+- Minhas Reservas
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+ **3. Requisições da View para os Controllers:**
 
-### 3.6. WebAPI e endpoints (Semana 05)
+Salas Disponíveis → Sala Controller: solicita a lista de salas.
+
+Formulário de Reserva → Sala Controller: carrega as salas disponíveis para reserva.
+
+Formulário de Reserva → Usuário Controller: busca os dados do usuário (ex: nome, email).
+
+Formulário de Reserva → Reserva Controller: envia os dados da nova reserva.
+
+Minhas Reservas → Reserva Controller: solicita as reservas já feitas pelo usuário.
+
+**4. Controllers acessam os Models:**
+
+Usuário Controller → Usuário Model: busca ou grava dados do usuário.
+
+Sala Controller → Sala Model: consulta ou atualiza informações das salas.
+
+Reserva Controller → Reserva Model: cria ou recupera reservas.
+
+**5. Models acessam o Banco de Dados:**
+
+Usuário Model → PostgreSQL: acessa a tabela usuario.
+
+Sala Model → PostgreSQL: acessa a tabela sala.
+
+Reserva Model → PostgreSQL: acessa a tabela reserva.
+
+**6. Retorno dos dados:**
+
+O banco de dados envia os dados para os Models.
+
+Os Models retornam as informações para os Controllers.
+
+Os Controllers enviam os dados para a View.
+
+A View exibe os dados no navegador para o usuário.
+
+### 2.3. WebAPI e endpoints
 
  
 Esta API RESTful permite o gerenciamento de reservas de salas através de três conjuntos de endpoints: `usuários`, `salas` e `reservas`. Todos os dados são enviados e recebidos no formato JSON.
@@ -263,7 +282,7 @@ curl http://localhost:3000/api/reservas-detalhadas
 ```
 
 ---
-### 3.7 Interface e Navegação (Semana 07)
+### 2.4 Interface e Navegação
 
 Nessa etapa do projeto, foi desenvolvido o front-end do sistema web de Reserva de Salas, utilizando EJS, CSS Bootstrap e Javascript, tornando a interface intuitiva, simples e funcional, estando conectada efetivamente com o back-end e com o banco de dados no Supabase.
 
@@ -297,40 +316,63 @@ A navegação entre páginas ocorre via rotas Express configuradas para renderiz
 
 - Tela Inicial:
 ![image_pag_1](./assets/Pag1.png)
+![image_pag_1.1](./assets/Pag1.1.png)
 
 - Tela de Salas Disponíveis:
 ![image_pag_2](./assets/Pag2.png)
+![image_pag_2.1](./assets/Pag2.1.png)
 
 - Tela de Identificação Para Reservar:
 ![image_pag_3](./assets/Pag3.png)
+![image_pag_3.1](./assets/Pag3.1.png)
 
 - Tela de Fazer Reserva:
 ![image_pag_4](./assets/Pag4.png)
+![image_pag_4.1](./assets/Pag4.1.png)
 
 - Tela de Identificação Para Ver Reservas:
 ![image_pag_5](./assets/Pag5.png)
+![image_pag_5.1](./assets/Pag5.1.png)
 
 - Tela de Ver Reservas:
 ![image_pag_6](./assets/Pag6.png)
+![image_pag_6.1](./assets/Pag6.1.png)
 ---
 
-## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
+## <a name="c4"></a>3. Desenvolvimento da Aplicação Web
 
-### 4.1 Demonstração do Sistema Web (Semana 8)
+### 3.1 Demonstração do Sistema Web 
 
 *VIDEO: Insira o link do vídeo demonstrativo nesta seção*
 *Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
 
-### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
+### 3.2 Conclusões e Trabalhos Futuros 
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+- **Pontos fortes:**
 
+A interface da aplicação se destaca por sua intuitividade e fluidez, permitindo que qualquer usuário, mesmo sem experiência prévia, compreenda rapidamente como navegar e utilizar as funcionalidades. Os elementos são organizados de forma clara e objetiva, facilitando a tomada de decisão e a execução de tarefas. Outro diferencial é a presença do modo escuro, que proporciona maior conforto visual, especialmente para usuários que preferem ambientes com menor luminosidade, tornando a experiência mais agradável e acessível em diferentes contextos de uso.
 
+- **Pontos a melhorar:**
 
-## <a name="c5"></a>5. Referências
+Uma possível melhoria para a aplicação seria a implementação de novas funcionalidades e serviços complementares, ampliando a utilidade e a experiência do usuário. Entre as sugestões, destaca-se a possibilidade de contratar serviços adicionais para salas reservadas, como agendamento de limpeza antes ou depois do uso, ou ainda a solicitação de serviço de alimentação para um horário específico. Essas funcionalidades agregariam valor à plataforma e atenderiam a diferentes necessidades dos usuários, especialmente em contextos corporativos ou eventos. É importante, no entanto, que todas essas implementações sigam a identidade visual e a lógica de usabilidade já estabelecidas na interface, garantindo uma experiência coesa, funcional e visualmente harmoniosa.
 
-_Incluir as principais referências de seu projeto, para que o leitor possa consultar caso ele se interessar em aprofundar._<br>
+### 3.3 Principais aprendizados e desafios superados
+
+- **Principais aprendizados:**
+
+Acredito que o projeto como um todo foi um grande aprendizado, desde a parte do backend até o frontend, coisas que não tinha ideia como fazer consegui aplicar nessa entrega final, a parte que mais senti evolução foi o frontend pois cheguei ao projeto com pouquíssimo conhecimento e agora pude aplicar uma interface limpa, didática e estilizada.
+
+- **Desafios superados:**
+
+O maior desafio foi a parte da criação dos endpoints, porém consegui superar passando a semana estudando para realizar a entrega, assisti vídeos, fiz autoestudos, assisti o vídeo do professor e ao final da semana consegui fazer, porém foi um caminho de muito esforço para aprender.
+
+- **O que funcionou bem:**
+
+Consegui aplicar muito bem os conhecimentos adquiridos durante o módulo, pude aplicar a teorica e consolidar os conhecimentos, acredito que pude equiibrar bastante todos os conhecimentos necessários, desde o backend até o frontend, então adquiri um conhecimento bem completo.
+
+- **O que pode melhorar:**
+
+Acredito que um ponto que posso melhorar é a minha gestão de tempo, durante essas semanas percebi que algumas vezes deixava para realizar as tarefas perto da data de entrega, causando uma sobrecarga desnecessária, porém não foi algo prejudicial para o projeto em sí.
 
 ---
 ---
