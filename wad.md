@@ -346,7 +346,17 @@ A navegação entre páginas ocorre via rotas Express configuradas para renderiz
 *VIDEO: Insira o link do vídeo demonstrativo nesta seção*
 *Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
 
-### 3.2 Conclusões e Trabalhos Futuros 
+### 3.2 Frameorks utilizados
+
+- **Express.js:**
+O Express.js facilita a criação de servidores web com Node.js, permitindo que você defina de forma simples rotas, respostas a requisições HTTP e middleware.
+
+- **Bootstrap:**
+O Bootstrap é utilizado junto com o HTML e o CSS para facilitar a criação de interfaces web. Ele fornece classes CSS prontas que são aplicadas diretamente nas tags HTML para definir o layout, as cores, os botões, os formulários e outros elementos visuais.
+
+### 3.3 Banco de dados
+
+### 3.4 Conclusões e Trabalhos Futuros 
 
 - **Pontos fortes:**
 
@@ -356,7 +366,7 @@ A interface da aplicação se destaca por sua intuitividade e fluidez, permitind
 
 Uma possível melhoria para a aplicação seria a implementação de novas funcionalidades e serviços complementares, ampliando a utilidade e a experiência do usuário. Entre as sugestões, destaca-se a possibilidade de contratar serviços adicionais para salas reservadas, como agendamento de limpeza antes ou depois do uso, ou ainda a solicitação de serviço de alimentação para um horário específico. Essas funcionalidades agregariam valor à plataforma e atenderiam a diferentes necessidades dos usuários, especialmente em contextos corporativos ou eventos. É importante, no entanto, que todas essas implementações sigam a identidade visual e a lógica de usabilidade já estabelecidas na interface, garantindo uma experiência coesa, funcional e visualmente harmoniosa.
 
-### 3.3 Principais aprendizados e desafios superados
+### 3.5 Principais aprendizados e desafios superados
 
 - **Principais aprendizados:**
 
