@@ -346,7 +346,7 @@ A navegação entre páginas ocorre via rotas Express configuradas para renderiz
 *VIDEO: Insira o link do vídeo demonstrativo nesta seção*
 *Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
 
-### 3.2 Frameorks utilizados
+### 3.2 Frameworks utilizados
 
 - **Express.js:**
 O Express.js facilita a criação de servidores web com Node.js, permitindo que você defina de forma simples rotas, respostas a requisições HTTP e middleware.
