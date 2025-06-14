@@ -356,6 +356,12 @@ O Bootstrap é utilizado junto com o HTML e o CSS para facilitar a criação de 
 
 ### 3.3 Banco de dados
 
+Na aplicação, foi utlizado o PostgreSQL como banco de dados e o Supabase como plataforma de hospedagem e gerenciamento.
+
+O PostgreSQL é o banco de dados em si, onde todas as informações da aplicação ficam armazenadas, como usuários, produtos, pedidos, etc. Ele é o responsável por organizar os dados em tabelas, garantir a segurança, a velocidade nas consultas e manter a integridade dos dados.
+
+Já o Supabase funciona como uma plataforma que hospeda e gerencia o PostgreSQL. Além de fornecer a infraestrutura para manter o banco online, o Supabase oferece uma interface gráfica para visualizar os dados, ferramentas de autenticação, armazenamento de arquivos e APIs automáticas que facilitam a comunicação entre o banco de dados e a aplicação.
+
 ### 3.4 Conclusões e Trabalhos Futuros 
 
 - **Pontos fortes:**
