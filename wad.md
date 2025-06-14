@@ -343,8 +343,7 @@ A navegação entre páginas ocorre via rotas Express configuradas para renderiz
 
 ### 3.1 Demonstração do Sistema Web 
 
-*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
-*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Link para o vídeo de demonstração: https://youtu.be/60K3WATHEos
 
 ### 3.2 Frameworks utilizados
 
