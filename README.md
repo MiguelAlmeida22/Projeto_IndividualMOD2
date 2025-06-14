@@ -92,7 +92,7 @@ A aplicação também contará com uma opção de "Modo Escuro" que deixará a i
 ---
 ### Link para o vídeo de demonstração do sistema:
 
-- xxxx
+- **Link:** https://youtu.be/60K3WATHEos
 ---
 
 ### Tecnologias utilizadas:
